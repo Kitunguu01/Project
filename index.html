@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediCare Hospital Management</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- ================= SIDEBAR ================= -->
+<aside class="sidebar" id="sidebar">
+
+    <div class="brand">
+        <div class="brand-icon">✚</div>
+        <div>
+            <h2>MediCare</h2>
+            <span>Hospital System</span>
+        </div>
+    </div>
+
+    <nav class="navigation">
+
+        <button class="nav-item active" onclick="showPage('dashboard', this)">
+            <span>▦</span>
+            <span>Dashboard</span>
+        </button>
+
+        <button class="nav-item" onclick="showPage('patients', this)">
+            <span>♙</span>
+            <span>Patients</span>
+        </button>
+
+        <button class="nav-item" onclick="showPage('appointments', this)">
+            <span>◷</span>
+            <span>Appointments</span>
+        </button>
+
+        <button class="nav-item" onclick="showPage('doctors', this)">
+            <span>⚕</span>
+            <span>Doctors</span>
+        </button>
+
+        <button class="nav-item" onclick="showPage('departments', this)">
+            <span>▣</span>
+            <span>Departments</span>
+        </button>
+
+    </nav>
+
+    <div class="sidebar-footer">
+        <div class="admin-avatar">SA</div>
+        <div>
+            <strong>Administrator</strong>
+            <small>Hospital Admin</small>
+        </div>
+    </div>
+
+</aside>
+
+
+<!-- ================= MAIN ================= -->
+<main class="main">
+
+    <!-- TOPBAR -->
+    <header class="topbar">
+
+        <div class="topbar-left">
+            <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+
+            <div>
+                <h1 id="pageTitle">Dashboard</h1>
+                <p>Hospital Management System</p>
+            </div>
+        </div>
+
+        <div class="topbar-right">
+            <div class="date-box">
+                <span>Today</span>
+                <strong id="currentDate"></strong>
+            </div>
+
+            <div class="profile">
+                <div class="profile-avatar">SA</div>
+                <div>
+                    <strong>Salum</strong>
+                    <small>Administrator</small>
+                </div>
+            </div>
+        </div>
+
+    </header>
+
+
+    <!-- ================= CONTENT ================= -->
+    <div class="content">
+
+
+        <!-- ================= DASHBOARD ================= -->
+        <section id="dashboard" class="page active-page">
+
+            <div class="welcome-card">
+
+                <div>
+                    <span class="welcome-label">WELCOME BACK</span>
+                    <h2>Hospital Dashboard</h2>
+                    <p>
+                        Manage patients, doctors, appointments and departments
+                        from one place.
+                    </p>
+                </div>
+
+                <div class="welcome-icon">🏥</div>
+
+            </div>
+
+
+            <!-- STAT CARDS -->
+            <div class="stats-grid">
+
+                <div class="stat-card">
+                    <div class="stat-icon blue">♙</div>
+                    <div>
+                        <span>Total Patients</span>
+                        <h3 id="totalPatients">0</h3>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon purple">◷</div>
+                    <div>
+                        <span>Appointments</span>
+                        <h3 id="totalAppointments">0</h3>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon green">⚕</div>
+                    <div>
+                        <span>Doctors</span>
+                        <h3 id="totalDoctors">0</h3>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon orange">▣</div>
+                    <div>
+                        <span>Departments</span>
+                        <h3 id="totalDepartments">0</h3>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <!-- QUICK ACTIONS -->
+            <div class="section-header">
+                <div>
+                    <h2>Quick Actions</h2>
+                    <p>Common hospital management tasks</p>
+                </div>
+            </div>
+
+            <div class="quick-grid">
+
+                <button class="quick-card" onclick="openPatientModal()">
+                    <span class="quick-icon blue">＋</span>
+                    <div>
+                        <strong>Add Patient</strong>
+                        <small>Register a new patient</small>
+                    </div>
+                </button>
+
+                <button class="quick-card" onclick="openAppointmentModal()">
+                    <span class="quick-icon purple">◷</span>
+                    <div>
+                        <strong>New Appointment</strong>
+                        <small>Schedule an appointment</small>
+                    </div>
+                </button>
+
+                <button class="quick-card" onclick="openDoctorModal()">
+                    <span class="quick-icon green">⚕</span>
+                    <div>
+                        <strong>Add Doctor</strong>
+                        <small>Register a doctor</small>
+                    </div>
+                </button>
+
+                <button class="quick-card" onclick="openDepartmentModal()">
+                    <span class="quick-icon orange">＋</span>
+                    <div>
+                        <strong>Add Department</strong>
+                        <small>Create department</small>
+                    </div>
+                </button>
+
+            </div>
+
+
+            <!-- RECENT PATIENTS -->
+            <div class="panel">
+
+                <div class="panel-header">
+                    <div>
+                        <h2>Recent Patients</h2>
+                        <p>Recently registered patients</p>
+                    </div>
+
+                    <button class="outline-btn"
+                            onclick="showPage('patients', document.querySelectorAll('.nav-item')[1])">
+                        View All
+                    </button>
+                </div>
+
+                <div class="table-container">
+
+                    <table>
+
+                        <thead>
+                        <tr>
+                            <th>Patient</th>
+                            <th>Gender</th>
+                            <th>Phone</th>
+                            <th>Blood Group</th>
+                            <th>Date Added</th>
+                        </tr>
+                        </thead>
+
+                        <tbody id="recentPatients"></tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= PATIENTS ================= -->
+        <section id="patients" class="page">
+
+            <div class="page-heading">
+
+                <div>
+                    <span class="section-label">PATIENT MANAGEMENT</span>
+                    <h2>Patients</h2>
+                    <p>Register and manage hospital patients.</p>
+                </div>
+
+                <button class="primary-btn" onclick="openPatientModal()">
+                    ＋ Add Patient
+                </button>
+
+            </div>
+
+
+            <div class="toolbar">
+
+                <div class="search-box">
+                    <span>⌕</span>
+                    <input
+                        type="text"
+                        id="patientSearch"
+                        placeholder="Search patients..."
+                        oninput="searchPatients()">
+                </div>
+
+                <button class="outline-btn" onclick="renderPatients()">
+                    ↻ Refresh
+                </button>
+
+            </div>
+
+
+            <div class="panel">
+
+                <div class="table-container">
+
+                    <table>
+
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Patient</th>
+                            <th>Gender</th>
+                            <th>Phone</th>
+                            <th>Blood Group</th>
+                            <th>Email</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+
+                        <tbody id="patientsTable"></tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= APPOINTMENTS ================= -->
+        <section id="appointments" class="page">
+
+            <div class="page-heading">
+
+                <div>
+                    <span class="section-label">APPOINTMENT MANAGEMENT</span>
+                    <h2>Appointments</h2>
+                    <p>Schedule and manage patient appointments.</p>
+                </div>
+
+                <button class="primary-btn" onclick="openAppointmentModal()">
+                    ＋ New Appointment
+                </button>
+
+            </div>
+
+
+            <div class="toolbar">
+
+                <div class="search-box">
+                    <span>⌕</span>
+                    <input
+                        type="text"
+                        id="appointmentSearch"
+                        placeholder="Search appointments..."
+                        oninput="filterAppointments()">
+                </div>
+
+                <button class="outline-btn" onclick="renderAppointments()">
+                    ↻ Refresh
+                </button>
+
+            </div>
+
+
+            <div class="panel">
+
+                <div class="table-container">
+
+                    <table>
+
+                        <thead>
+                        <tr>
+                            <th>Patient</th>
+                            <th>Doctor</th>
+                            <th>Department</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+
+                        <tbody id="appointmentsTable"></tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= DOCTORS ================= -->
+        <section id="doctors" class="page">
+
+            <div class="page-heading">
+
+                <div>
+                    <span class="section-label">MEDICAL STAFF</span>
+                    <h2>Doctors</h2>
+                    <p>Manage doctors and medical specialists.</p>
+                </div>
+
+                <button class="primary-btn" onclick="openDoctorModal()">
+                    ＋ Add Doctor
+                </button>
+
+            </div>
+
+
+            <div class="doctor-grid" id="doctorGrid"></div>
+
+        </section>
+
+
+        <!-- ================= DEPARTMENTS ================= -->
+        <section id="departments" class="page">
+
+            <div class="page-heading">
+
+                <div>
+                    <span class="section-label">HOSPITAL SERVICES</span>
+                    <h2>Departments</h2>
+                    <p>Manage hospital departments.</p>
+                </div>
+
+                <button class="primary-btn" onclick="openDepartmentModal()">
+                    ＋ Add Department
+                </button>
+
+            </div>
+
+
+            <div class="department-grid" id="departmentGrid"></div>
+
+        </section>
+
+    </div>
+
+</main>
+
+
+<!-- ================= PATIENT MODAL ================= -->
+<div class="modal" id="patientModal">
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+
+            <div>
+                <span class="section-label">PATIENT</span>
+                <h2>Add Patient</h2>
+            </div>
+
+            <button class="close-btn" onclick="closePatientModal()">×</button>
+
+        </div>
+
+
+        <form id="patientForm">
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label>First Name *</label>
+                    <input type="text" id="patientFirstName" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Last Name *</label>
+                    <input type="text" id="patientLastName" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Gender *</label>
+                    <select id="patientGender" required>
+                        <option value="">Select Gender</option>
+                        <option>Male</option>
+                        <option>Female</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Date of Birth</label>
+                    <input type="date" id="patientDOB">
+                </div>
+
+                <div class="form-group">
+                    <label>Phone *</label>
+                    <input type="tel" id="patientPhone" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="patientEmail">
+                </div>
+
+                <div class="form-group">
+                    <label>Blood Group</label>
+                    <select id="patientBlood">
+                        <option value="">Select Blood Group</option>
+                        <option>A+</option>
+                        <option>A-</option>
+                        <option>B+</option>
+                        <option>B-</option>
+                        <option>AB+</option>
+                        <option>AB-</option>
+                        <option>O+</option>
+                        <option>O-</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Emergency Contact</label>
+                    <input type="text" id="emergencyContact">
+                </div>
+
+                <div class="form-group full">
+                    <label>Address</label>
+                    <textarea id="patientAddress" rows="3"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Emergency Phone</label>
+                    <input type="tel" id="emergencyPhone">
+                </div>
+
+            </div>
+
+
+            <div class="modal-actions">
+
+                <button type="button" class="cancel-btn"
+                        onclick="closePatientModal()">
+                    Cancel
+                </button>
+
+                <button type="submit" class="primary-btn">
+                    Save Patient
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- ================= APPOINTMENT MODAL ================= -->
+<div class="modal" id="appointmentModal">
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+
+            <div>
+                <span class="section-label">APPOINTMENT</span>
+                <h2>New Appointment</h2>
+            </div>
+
+            <button class="close-btn" onclick="closeAppointmentModal()">×</button>
+
+        </div>
+
+
+        <form id="appointmentForm">
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label>Patient *</label>
+                    <select id="appointmentPatient" required>
+                        <option value="">Select Patient</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Doctor *</label>
+                    <select id="appointmentDoctor" required>
+                        <option value="">Select Doctor</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Department *</label>
+                    <select id="appointmentDepartment" required>
+                        <option value="">Select Department</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Date *</label>
+                    <input type="date" id="appointmentDate" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Time *</label>
+                    <input type="time" id="appointmentTime" required>
+                </div>
+
+                <div class="form-group full">
+                    <label>Reason</label>
+                    <textarea id="appointmentReason"
+                              rows="3"
+                              placeholder="Reason for appointment"></textarea>
+                </div>
+
+            </div>
+
+
+            <div class="modal-actions">
+
+                <button type="button" class="cancel-btn"
+                        onclick="closeAppointmentModal()">
+                    Cancel
+                </button>
+
+                <button type="submit" class="primary-btn">
+                    Save Appointment
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- ================= DOCTOR MODAL ================= -->
+<div class="modal" id="doctorModal">
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+
+            <div>
+                <span class="section-label">MEDICAL STAFF</span>
+                <h2>Add Doctor</h2>
+            </div>
+
+            <button class="close-btn" onclick="closeDoctorModal()">×</button>
+
+        </div>
+
+
+        <form id="doctorForm">
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label>First Name *</label>
+                    <input type="text" id="doctorFirstName" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Last Name *</label>
+                    <input type="text" id="doctorLastName" required>
+                </div>
+
+                <!-- SPECIALIZATION -->
+                <div class="form-group">
+                    <label>Specialization *</label>
+
+                    <select id="doctorSpecialization" required>
+
+                        <option value="">Select Specialization</option>
+
+                        <option>General Physician</option>
+                        <option>Cardiologist</option>
+                        <option>Dermatologist</option>
+                        <option>Pediatrician</option>
+                        <option>Gynecologist</option>
+                        <option>Orthopedic Specialist</option>
+                        <option>Neurologist</option>
+                        <option>Dentist</option>
+                        <option>Ophthalmologist</option>
+                        <option>ENT Specialist</option>
+                        <option>Psychiatrist</option>
+                        <option>General Surgeon</option>
+                        <option>Radiologist</option>
+                        <option>Urologist</option>
+                        <option>Anesthesiologist</option>
+                        <option>Other</option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+                    <label>Department *</label>
+
+                    <select id="doctorDepartment" required>
+
+                        <option value="">Select Department</option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+                    <label>Phone *</label>
+                    <input type="tel" id="doctorPhone" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="doctorEmail">
+                </div>
+
+            </div>
+
+
+            <div class="modal-actions">
+
+                <button type="button" class="cancel-btn"
+                        onclick="closeDoctorModal()">
+                    Cancel
+                </button>
+
+                <button type="submit" class="primary-btn">
+                    Save Doctor
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- ================= DEPARTMENT MODAL ================= -->
+<div class="modal" id="departmentModal">
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+
+            <div>
+                <span class="section-label">HOSPITAL SERVICES</span>
+                <h2>Add Department</h2>
+            </div>
+
+            <button class="close-btn" onclick="closeDepartmentModal()">×</button>
+
+        </div>
+
+
+        <form id="departmentForm">
+
+            <div class="form-grid">
+
+                <div class="form-group full">
+                    <label>Department Name *</label>
+
+                    <input
+                        type="text"
+                        id="departmentName"
+                        placeholder="e.g. Cardiology"
+                        required>
+
+                </div>
+
+
+                <div class="form-group full">
+                    <label>Description</label>
+
+                    <textarea
+                        id="departmentDescription"
+                        rows="4"
+                        placeholder="Department description"></textarea>
+
+                </div>
+
+            </div>
+
+
+            <div class="modal-actions">
+
+                <button type="button"
+                        class="cancel-btn"
+                        onclick="closeDepartmentModal()">
+                    Cancel
+                </button>
+
+                <button type="submit" class="primary-btn">
+                    Save Department
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- ================= TOAST ================= -->
+<div id="toast" class="toast"></div>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
